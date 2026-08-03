@@ -1,0 +1,16 @@
+{
+  "//": "Copy to foreman.config.json (gitignored) and fill in your own values. All fields optional — if none are set, Foreman prints escalations in chat only.",
+
+  "escalation": {
+    "//": "How Foreman reaches you on a Halt, a gate: human phase, exhausted retries, or completion. Foreman ALWAYS also prints the escalation in chat, so this is an enhancement, not a requirement.",
+
+    "channel": "chat",
+    "//channel": "One of: chat | discord. 'chat' = print in the Orchestrator session only. 'discord' = also ping the channel below (requires the Discord integration wired into your Claude Code).",
+
+    "discord_channel_id": "",
+    "//discord_channel_id": "Primary Discord channel id to ping for escalations. Leave empty to disable.",
+
+    "discord_dm_channel_id": "",
+    "//discord_dm_channel_id": "Optional fallback DM channel id used if the primary channel fails."
+  }
+}

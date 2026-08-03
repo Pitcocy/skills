@@ -1,1 +1,8 @@
+# Your private escalation config — never commit
+foreman.config.json
+
+# macOS
 .DS_Store
+
+# Runtime state lives in the target project under .foreman/, never here
+.foreman/
