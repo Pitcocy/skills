@@ -36,6 +36,7 @@ It comes with the skills that produce the convention it consumes:
 | Skill | Role |
 |---|---|
 | [`foreman`](skills/foreman) | The autonomous run loop. |
+| [`wayfinder`](skills/wayfinder) | Chart an idea too big for one session as a map of decision tickets on your issue tracker, then resolve one per session until the way is clear. Comes before the PRD, when you don't yet know enough to write one. |
 | [`write-a-prd`](skills/write-a-prd) | Produce a PRD through structured discovery. |
 | [`prd-to-plan`](skills/prd-to-plan) | Turn that PRD into a phased tracer-bullet plan. |
 | [`grill-with-docs`](skills/grill-with-docs) | Stress-test the plan against your domain model, update the docs. |
@@ -44,6 +45,10 @@ It comes with the skills that produce the convention it consumes:
 | [`prototype`](skills/prototype) | Throwaway prototype to settle a design question. |
 
 Together they are the whole loop: idea, plan, autonomous build.
+
+`wayfinder` calls Matt's `grilling`, `domain-modeling`, and `setup-matt-pocock-skills`
+(for the issue-tracker doc), which are not in this repo. Install them alongside it:
+`npx skills@latest add mattpocock/skills -g`.
 
 ### Design
 
@@ -66,13 +71,13 @@ later.
 
 A lot of this is other people's work, combined or adapted.
 
-- **[Matt Pocock](https://github.com/mattpocock/skills)** (MIT). `grill-with-docs`,
-  `prototype`, `tdd`, `write-a-prd`, and `prd-to-plan` are adapted from his collection,
-  modified to fit Foreman's tracer-bullet convention. `grilling-frontend-prototyping`
-  takes its interview discipline and its prototype rules from his `grilling` and
-  `prototype`. His license is preserved in
-  [`THIRD_PARTY_LICENSES/`](THIRD_PARTY_LICENSES/). Go get the originals and the rest of
-  his set, including `wayfinder`: `npx skills@latest add mattpocock/skills -g`.
+- **[Matt Pocock](https://github.com/mattpocock/skills)** (MIT). `wayfinder` is his,
+  copied unmodified (the v1.1 revision I run). `grill-with-docs`, `prototype`, `tdd`,
+  `write-a-prd`, and `prd-to-plan` are adapted from his collection, modified to fit
+  Foreman's tracer-bullet convention. `grilling-frontend-prototyping` takes its interview
+  discipline and its prototype rules from his `grilling` and `prototype`. His license is
+  preserved in [`THIRD_PARTY_LICENSES/`](THIRD_PARTY_LICENSES/). Go get the originals
+  and the rest of his set: `npx skills@latest add mattpocock/skills -g`.
 - **Will Waldon** for asking the grilling questions with prototypes and zooming the
   design tree one level per round, which is the idea that turns two good skills into one
   better one.
