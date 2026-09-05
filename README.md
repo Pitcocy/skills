@@ -62,9 +62,11 @@ when you are not on GitHub.
 If you came here from the summit, this is the flow from the Day-2 workshop:
 
 1. Make one folder for the task you picked.
-2. Put your worksheet answers in it (the HTML worksheet on [pitcocy.com/summit](https://pitcocy.com/summit) copies them as markdown) and a screenshot of your stack card from the same page.
-3. Install the skills: `npx skills@latest add Pitcocy/skills --all -g --agent claude-code`
-4. Open Claude Code in that folder and run `/wayfinder` with one line about what you want to build.
+2. Save your worksheet answers in it as `worksheet.md` (the workshop portal exports them as markdown).
+3. On [pitcocy.com/summit](https://pitcocy.com/summit), build your range card, then hit "Get my kit" under Go deeper. Save `summit-kit.md` in the same folder.
+4. Install the skills: `npx skills@latest add Pitcocy/skills --all -g --agent claude-code`
+5. Open Claude Code in that folder and paste the startup line from the kit:
+   `/wayfinder Read summit-kit.md and worksheet.md, then help me plan the build for the task in the worksheet.`
 
 Wayfinder reads the folder, asks you the questions you can't answer yet, and leaves a map
 of decisions behind. You build once the way is clear, not before.
