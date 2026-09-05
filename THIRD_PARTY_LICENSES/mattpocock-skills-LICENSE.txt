@@ -1,11 +1,17 @@
-The following Foreman skills are adapted from Matt Pocock's skills collection:
+The following skills are copied unmodified from Matt Pocock's skills collection:
+
+    skills/wayfinder
+    skills/grilling
+    skills/domain-modeling
+
+The following Foreman skills are adapted from the same collection:
 
     skills/grill-with-docs
     skills/prototype
     skills/tdd
 
 Source: https://github.com/mattpocock/skills
-They have been modified to integrate with Foreman's tracer-bullet convention.
+The adapted ones have been modified to integrate with Foreman's tracer-bullet convention.
 The original work is distributed under the MIT License, reproduced below.
 
 ================================================================================

@@ -46,9 +46,28 @@ It comes with the skills that produce the convention it consumes:
 
 Together they are the whole loop: idea, plan, autonomous build.
 
-`wayfinder` calls Matt's `grilling`, `domain-modeling`, and `setup-matt-pocock-skills`
-(for the issue-tracker doc), which are not in this repo. Install them alongside it:
-`npx skills@latest add mattpocock/skills -g`.
+`wayfinder` calls two more of Matt's skills on every ticket, so they ship here too:
+
+| Skill | Role |
+|---|---|
+| [`grilling`](skills/grilling) | Interview you one question at a time until the plan is shared understanding. |
+| [`domain-modeling`](skills/domain-modeling) | Pin down the words you use and record the decisions that are hard to reverse. |
+
+No setup step is needed. Without an issue-tracker config, `wayfinder` keeps its map and
+tickets as markdown files under `.scratch/` in your project, which is the right default
+when you are not on GitHub.
+
+### PPC Summit 2026: plan your build before you build it
+
+If you came here from the summit, this is the flow from the Day-2 workshop:
+
+1. Make one folder for the task you picked.
+2. Put your worksheet answers in it (the HTML worksheet on [pitcocy.com/summit](https://pitcocy.com/summit) copies them as markdown) and a screenshot of your stack card from the same page.
+3. Install the skills: `npx skills@latest add Pitcocy/skills --all -g --agent claude-code`
+4. Open Claude Code in that folder and run `/wayfinder` with one line about what you want to build.
+
+Wayfinder reads the folder, asks you the questions you can't answer yet, and leaves a map
+of decisions behind. You build once the way is clear, not before.
 
 ### Design
 
@@ -71,8 +90,8 @@ later.
 
 A lot of this is other people's work, combined or adapted.
 
-- **[Matt Pocock](https://github.com/mattpocock/skills)** (MIT). `wayfinder` is his,
-  copied unmodified (the v1.1 revision I run). `grill-with-docs`, `prototype`, `tdd`,
+- **[Matt Pocock](https://github.com/mattpocock/skills)** (MIT). `wayfinder`, `grilling`
+  and `domain-modeling` are his, copied unmodified (the revisions I run). `grill-with-docs`, `prototype`, `tdd`,
   `write-a-prd`, and `prd-to-plan` are adapted from his collection, modified to fit
   Foreman's tracer-bullet convention. `grilling-frontend-prototyping` takes its interview
   discipline and its prototype rules from his `grilling` and `prototype`. His license is
