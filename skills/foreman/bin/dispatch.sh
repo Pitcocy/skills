@@ -1,27 +1,33 @@
 #!/usr/bin/env bash
 # Foreman worker dispatch: one-shot headless agent, full output streamed to the log.
-# usage: dispatch.sh <claude|codex> <target-dir> <brief-file> <log-file>
+# usage: dispatch.sh <claude|codex> <target-dir> <brief-file> <log-file> <model> [effort]
 set -uo pipefail
 
+if [[ $# -lt 5 || $# -gt 6 || -z "${5:-}" ]]; then
+  echo "usage: dispatch.sh <claude|codex> <target-dir> <brief-file> <log-file> <confirmed-model> [effort]" >&2
+  exit 64
+fi
+
 engine="$1"; target="$2"; brief="$3"; log="$4"
+model="$5"
 
-# Always fan out on the latest/best Claude model (builders + verifiers).
-# Override per-run with FOREMAN_CLAUDE_MODEL / FOREMAN_CLAUDE_EFFORT,
-# FOREMAN_CODEX_MODEL / FOREMAN_CODEX_EFFORT if ever needed.
-claude_model="${FOREMAN_CLAUDE_MODEL:-claude-opus-4-8}"
-claude_effort="${FOREMAN_CLAUDE_EFFORT:-}"
-codex_model="${FOREMAN_CODEX_MODEL:-}"
-codex_effort="${FOREMAN_CODEX_EFFORT:-}"
-
+# Models are confirmed per role at kickoff and passed from the run manifest.
+# Explicit effort (including empty) wins; preserve engine overrides for callers
+# that omit it. Foreman passes the saved effort explicitly for repeatable runs.
 case "$engine" in
   claude)
-    (cd "$target" && claude -p --dangerously-skip-permissions --model "$claude_model" \
-      ${claude_effort:+--effort "$claude_effort"} < "$brief") >"$log" 2>&1
+    effort="${6-${FOREMAN_CLAUDE_EFFORT:-}}"
+    model_args=(--model "$model")
+    [[ -z "$effort" ]] || model_args+=(--effort "$effort")
+    (cd "$target" && claude -p --dangerously-skip-permissions \
+      "${model_args[@]}" < "$brief") >"$log" 2>&1
     ;;
   codex)
+    effort="${6-${FOREMAN_CODEX_EFFORT:-}}"
+    model_args=(-m "$model")
+    [[ -z "$effort" ]] || model_args+=(-c "model_reasoning_effort=\"$effort\"")
     codex exec --dangerously-bypass-approvals-and-sandbox -C "$target" \
-      ${codex_model:+-m "$codex_model"} \
-      ${codex_effort:+-c model_reasoning_effort="$codex_effort"} \
+      "${model_args[@]}" \
       - < "$brief" >"$log" 2>&1
     ;;
   *)

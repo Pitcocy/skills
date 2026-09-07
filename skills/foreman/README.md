@@ -42,7 +42,7 @@ The authoring skills produce the convention that `foreman` consumes — together
 
 - **[Claude Code](https://claude.com/claude-code)** ≥ 2.1, logged into your own subscription.
 - **[`codex`](https://github.com/openai/codex) CLI** ≥ 0.138, logged in — only if you want Codex as a build engine. The Verifier always runs on `claude`, so Claude Code is required regardless.
-- **`git`**.
+- **`git`** and **Bash**. Codex model discovery also uses **`jq`**.
 - Optionally, a Discord channel wired into your Claude Code, if you want escalations pinged to your phone (see [Configuration](#configuration)).
 
 ## Install
@@ -88,17 +88,41 @@ needs the Discord integration wired into your Claude Code), and fill in
 prints the escalation in chat regardless, so this is an enhancement, never a
 requirement.
 
-### Model and effort overrides
+### Model selection and effort
 
-Builders and Verifiers both run on the latest Claude model by default. Override per run
-with environment variables:
+At each new run, Foreman asks you to choose the builder and verifier models in one
+chat question. If your kickoff already names both, that counts as your choice.
+The suggested defaults are:
 
-| Variable | Effect |
+- **Claude: latest Opus**, through the `opus` alias. Foreman discloses any configured
+  alias pin; use an exact model ID when you want a fixed version.
+- **Codex: latest available Astra**, discovered from the installed CLI's `model/list`
+  catalog using `bin/list-codex-models.sh`. Discovery does not start a model turn.
+  If the lookup fails, Foreman labels cached suggestions with their timestamp or
+  asks for an explicit model ID.
+
+The verifier always uses Claude, but its model and effort are stored separately
+from the builder's. Confirmed choices live in the run manifest and are reused for
+retries and resumes. The `opus` alias can follow a newer release between launches;
+exact model IDs stay fixed. Older manifests without model choices prompt before
+the next dispatch.
+
+| Variable | Effect at kickoff |
 |---|---|
-| `FOREMAN_CLAUDE_MODEL` | Model for claude Workers and the Verifier. |
-| `FOREMAN_CLAUDE_EFFORT` | Reasoning effort for claude Workers. |
-| `FOREMAN_CODEX_MODEL` | Model for codex Workers. |
-| `FOREMAN_CODEX_EFFORT` | Reasoning effort for codex Workers. |
+| `FOREMAN_CLAUDE_MODEL` | Suggested Claude model; still requires your choice in chat. |
+| `FOREMAN_CODEX_MODEL` | Suggested Codex model; still requires your choice in chat. |
+| `FOREMAN_CLAUDE_EFFORT` | Initial effort for Claude roles, saved per role. |
+| `FOREMAN_CODEX_EFFORT` | Initial effort for Codex builders, saved per role. |
+
+For direct helper calls, the confirmed model is now required:
+
+```sh
+bash "<skill-dir>/bin/dispatch.sh" <engine> <target> <brief> <log> <model> [effort]
+```
+
+Quote arguments containing spaces. An explicit empty effort (`""`) selects the CLI
+default; omitting effort retains the corresponding engine's effort environment
+variable. Model environment variables never silently select the dispatch model.
 
 ## Usage
 
@@ -108,7 +132,7 @@ From inside (or pointing at) your target project:
 /foreman
 ```
 
-Then tell it the target path and the build **Engine** (`claude` or `codex` — required, no default). Foreman pre-flights, then runs. While it works:
+Then tell it the target path and the build **Engine** (`claude` or `codex` — required, no default). Foreman confirms both role models, pre-flights, then runs. While it works:
 
 - `status` — where the run is, answered from the manifest.
 - `stop after 4` — finish phase 4, then pause.
