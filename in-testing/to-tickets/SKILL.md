@@ -45,7 +45,7 @@ Fill the run fields per ticket:
 - **TDD**: `yes` when the ticket adds behavior at a seam from the spec; `no` for scaffolding, config, infra, or copy changes.
 - **Gate**: add `human` only where the user must look before work continues (a visible UX call, anything that spends money or touches production). Most tickets have no gate.
 - **Engine**: only if this ticket must run on a specific engine; usually omitted.
-- **How to test as the user**: concrete steps the user (or the foreman verifier) can walk. Prefix with `manual:` any step only a human can do (visual judgement, a real login, a paid API call). The verifier skips `manual:` steps and defers them to the user.
+- **How to test as the user**: concrete steps the user (or the foreman verifier) can walk. Prefix with `manual:` any step only a human can do (visual judgement, a real login, a paid API call). The verifier skips `manual:` steps and defers them to the user. When the ticket is about speed or size, the steps and the acceptance criteria name the **worst case**: the exact record that holds most of the data (the campaign with most of the items, the biggest file), opened on every screen the ticket touches, never "a few".
 
 ### 4. Quiz the user
 

@@ -95,9 +95,9 @@ Branch on the verdict's `failure_class` and `fix`. Both calls were made by the a
 
 The frontier is empty when no `ready-for-agent` or `in-progress` ticket is runnable. Run the review exactly once per Run, never mid-run (unbuilt tickets read as failures and trigger rework loops).
 
-1. Manifest status: `reviewing`. Compile `templates/review-brief.md` and dispatch with `reviewer_engine`, `reviewer_model`, `reviewer_effort`. The reviewer runs `two-axis-review` against `base_commit`, writes `.foreman/runs/<id>/review.md`, and files actionable findings as new `needs-triage` tickets. It never edits code.
+1. Manifest status: `reviewing`. Compile `templates/review-brief.md` and dispatch with `reviewer_engine`, `reviewer_model`, `reviewer_effort`. The reviewer runs `two-axis-review` against `base_commit`, writes `.foreman/runs/<id>/review.md`, and files actionable findings as new `needs-triage` tickets. It never edits code, with one exception: a comment that breaks a documented comment standard it deletes or rewords in place, listed in `review.md`, instead of filing a ticket.
 2. Reviewer crashed (no `review.md`): re-dispatch once, then note it in the handoff and continue to Complete. A missing review never blocks completion, but it is always reported.
-3. If it filed tickets: commit them, `foreman: review findings`. Do not run them: `needs-triage` is the Operator's call. No fix loop.
+3. If it filed tickets or fixed comments: commit them, `foreman: review findings`. Do not run them: `needs-triage` is the Operator's call. No fix loop.
 
 ### 6. Escalate / pause / complete
 

@@ -4,8 +4,8 @@ You are a one-shot headless Reviewer dispatched by Foreman after every runnable 
 
 ## Ground rules
 
-- You are on branch `{{RUN_BRANCH}}`. Never commit, never change branches, never edit code, tests, or config. You review; you do not fix.
-- The only files you may write: `{{REVIEW_PATH}}` and new ticket files in `.scratch/{{FEATURE}}/issues/`. Never edit an existing ticket or the spec.
+- You are on branch `{{RUN_BRANCH}}`. Never commit, never change branches, never edit code, tests, or config. You review; you do not fix, except comments (Output 2).
+- The only files you may write: `{{REVIEW_PATH}}`, new ticket files in `.scratch/{{FEATURE}}/issues/`, and comment lines under Output 2. Never edit an existing ticket or the spec.
 
 ## The review
 
@@ -20,7 +20,11 @@ Ignore its step about asking the user: everything it would ask is answered above
 
 Write the skill's full report (the `## Standards` and `## Spec` sections plus its one-line summary) to `{{REVIEW_PATH}}`.
 
-## Output 2: tickets for actionable findings
+## Output 2: comment fixes in place
+
+A Standards hard violation that lives only in a comment (restates the code, narrates history, states a plan or a current value): fix it yourself. Delete the comment, or reword it to keep a why the code can't say. Change nothing but the comment text. List each fix in the Standards section as `fixed in place: <file:line>`. When the fix needs anything beyond the comment, file a ticket instead.
+
+## Output 3: tickets for the other actionable findings
 
 File one ticket per actionable finding:
 
