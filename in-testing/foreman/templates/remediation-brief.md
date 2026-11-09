@@ -10,7 +10,8 @@ A builder already implemented this ticket. An independent verifier found it most
 - You are on branch `{{RUN_BRANCH}}`. No commits, no branch changes, nothing under `.foreman/` except your own Result File and the browser profile below, never touch anything under `.scratch/`.
 - The project's agent instructions apply (`CLAUDE.md` if you are Claude, `AGENTS.md` if you are Codex).
 - **Deliverable hygiene:** shipped artifacts never reference tickets, attempts, or what changed. That narration belongs only in your Result File.
-- **Headless browsers** (Chrome, Edge, Playwright, Puppeteer) always launch with the one reused profile at `.foreman/browser-profile/` (Playwright: `launchPersistentContext`), never a fresh `--user-data-dir` or temp profile. On Windows every fresh profile logs a failed sign-in (Event 4625), and repeated runs lock the account.
+- **Headless browsers on Windows** (Chrome, Edge, Playwright, Puppeteer) launch with the one reused profile at `.foreman/browser-profile/` (Playwright: `launchPersistentContext`), because every fresh profile logs a failed sign-in (Event 4625) and repeated runs lock the account. On macOS and Linux the project's tests use their own fresh profiles.
+- Test files carry no comments: the test's name says what it checks.
 
 ## What failed and the fix, as diagnosed by the verifier
 

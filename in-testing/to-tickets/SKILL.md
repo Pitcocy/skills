@@ -43,7 +43,7 @@ Give each ticket its **blocking edges**: the tickets that must finish before it 
 Fill the run fields per ticket:
 
 - **TDD**: `yes` when the ticket adds behavior at a seam from the spec; `no` for scaffolding, config, infra, or copy changes.
-- **Gate**: add `human` only where the user must look before work continues (a visible UX call, anything that spends money or touches production). Most tickets have no gate.
+- **Gate**: add `human` only where the user must look before work continues (a visible UX call, anything that spends money or touches production), and say why on the line: `Gate: human, try the wizard first` or `Gate: human, billed evals`. Most tickets have no gate. Foreman clears a spend gate when the kickoff confirmed spend, and the first ticket of a run never needs one: the kickoff go is that gate.
 - **Engine**: only if this ticket must run on a specific engine; usually omitted.
 - **How to test as the user**: concrete steps the user (or the foreman verifier) can walk. Prefix with `manual:` any step only a human can do (visual judgement, a real login, a paid API call). The verifier skips `manual:` steps and defers them to the user. When the ticket is about speed or size, the steps and the acceptance criteria name the **worst case**: the exact record that holds most of the data (the campaign with most of the items, the biggest file), opened on every screen the ticket touches, never "a few".
 
@@ -72,7 +72,7 @@ Finish by printing the list of files and the frontier (tickets with no blockers)
 **Status:** ready-for-agent
 **Blocked by:** None
 **TDD:** yes
-**Gate:** human
+**Gate:** human, try the wizard before the next step
 **Engine:** codex
 
 ## What to build

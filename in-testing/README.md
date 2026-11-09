@@ -8,7 +8,8 @@ The next version of Foreman and its companion skills. It's being tested on real 
 - **Foreman runs the ticket folder** along its frontier, one builder at a time. It reviews once at the end with `two-axis-review` and files findings as `needs-triage` tickets. There is no fix loop.
 - **Any engine for any role.** Builder, verifier and reviewer each run on `claude` or `codex`.
 - **Small fails are patched, not rebuilt.** The verifier rates each fail `small` or `large`. A small one keeps the work and gets a targeted patch.
-- **Headless browsers reuse one profile.** On Windows, a fresh profile per launch logs a failed sign-in and can lock the account.
+- **Headless browsers reuse one profile on Windows**, where a fresh profile per launch logs a failed sign-in and can lock the account. Elsewhere the project's tests use their own profiles.
+- **Foreman decides the small things.** A test already red on the base commit is excluded and filed as a ticket; a criterion narrowed to what the built design can produce is amended by Foreman. Both are listed under Orchestrator decisions in the handoff. New behaviour or a product choice still escalates.
 - `execute-ticket` replaces `execute-phase`. `retro` is new.
 
 Flow: grill → `/to-spec` → `/to-tickets` → `/foreman` or `/execute-ticket` → `/two-axis-review` → `/retro`.
