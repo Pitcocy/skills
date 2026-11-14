@@ -73,7 +73,7 @@ Everything lives in `<target>/.foreman/runs/<run-id>/` (run-id: `<feature>-YYYYM
 
 1. Compile the **verifier brief** from `templates/verifier-brief.md` (acceptance criteria + how-to-test steps from the ticket; **never** include the builder's self-check: independence). Dispatch with the manifest's `verifier_engine`, `verifier_model`, and `verifier_effort`, including for rechecks.
 2. Read the verdict file only:
-   - `verdict: pass`: **checkpoint**. Set the ticket's `Status: ready-for-review` and tick its acceptance boxes, then `git -c user.name=Foreman -c user.email=foreman@local add -A && git ... commit -m "foreman: #NN <title>"`. Update manifest, next frontier ticket.
+   - `verdict: pass`: **checkpoint**. Set the ticket's `Status: ready-for-review` and tick its acceptance boxes, then `git -c user.name=Foreman -c user.email=foreman@local add -A && git ... commit -m "foreman: #NN <title>"`. Update manifest, next frontier ticket. A commit the project's pre-commit hook refuses is a fail with `fix: small`: the hook's output is the failing row, and it takes the Fail path's remediation.
    - `verdict: fail` but builder self-check claimed all criteria met: **Adjudication**. Dispatch ONE targeted second verifier ("previous verdict claims X failed; re-check X specifically, with evidence"). Second pass: proceed (first verifier hallucinated). Second fail: Fail path. You never self-certify; no `ready-for-review` without a passing verdict file on disk.
    - verifier crashed (no verdict file): re-dispatch verifier once, then escalate. **No verdict is never a pass.**
 
@@ -123,6 +123,7 @@ The frontier is empty when no `ready-for-agent` or `in-progress` ticket is runna
   - review commands: `git log --author=Foreman --oneline`, per-ticket diffs
   - reminder: merging the Run Branch to `main` is their acceptance signature and the moment the `ready-for-review` tickets become `done`
   - suggestion: `/retro` on `.foreman/runs/<id>/`
+  - merge note: `/pr <run-id>` before merging (door call and blast radius)
 
 ## Never
 
@@ -133,4 +134,5 @@ The frontier is empty when no `ready-for-agent` or `in-progress` ticket is runna
 - Never run the review mid-run, never run it twice, never auto-fix its findings
 - Never commit as the Operator: Foreman identity only, Run Branch only
 - Never dispatch with a dirty tree or a broken ticket graph
+- Never put a requirement the ticket doesn't state into a brief: lessons from earlier tickets go in as things to check, never as extra criteria
 - Never run two Runs in the same Target Project

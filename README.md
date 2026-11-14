@@ -39,7 +39,7 @@ It comes with the skills that produce the convention it consumes:
 | [`wayfinder`](skills/wayfinder) | Chart an idea too big for one session as a map of decision tickets on your issue tracker, then resolve one per session until the way is clear. Comes before the PRD, when you don't yet know enough to write one. |
 | [`write-a-prd`](skills/write-a-prd) | Produce a PRD through structured discovery. |
 | [`prd-to-plan`](skills/prd-to-plan) | Turn that PRD into a phased tracer-bullet plan. |
-| [`grill-with-docs`](skills/grill-with-docs) | Stress-test the plan against your domain model, update the docs. |
+| [`grill-with-docs`](skills/grill-with-docs) | `grilling` plus `domain-modeling` in one command: stress-test the plan and update the glossary and decision records as you go. |
 | [`execute-phase`](skills/execute-phase) | Run a single phase interactively, the non-autonomous path. |
 | [`tdd`](skills/tdd) | Red-green-refactor loop for a phase. |
 | [`prototype`](skills/prototype) | Throwaway prototype to settle a design question. |
@@ -50,7 +50,7 @@ Together they are the whole loop: idea, plan, autonomous build.
 
 | Skill | Role |
 |---|---|
-| [`grilling`](skills/grilling) | Interview you one question at a time until the plan is shared understanding. |
+| [`grilling`](skills/grilling) | Interview you in rounds, every question that can be answered now with a recommended answer each, until the plan is shared understanding. |
 | [`domain-modeling`](skills/domain-modeling) | Pin down the words you use and record the decisions that are hard to reverse. |
 
 No setup step is needed. Without an issue-tracker config, `wayfinder` keeps its map and
@@ -91,8 +91,8 @@ later.
 
 A lot of this is other people's work, combined or adapted.
 
-- **[Matt Pocock](https://github.com/mattpocock/skills)** (MIT). `wayfinder`, `grilling`
-  and `domain-modeling` are his, copied unmodified (the revisions I run). `grill-with-docs`, `prototype`, `tdd`,
+- **[Matt Pocock](https://github.com/mattpocock/skills)** (MIT). `wayfinder`, `grilling`,
+  `grill-with-docs` and `domain-modeling` are his, copied unmodified (the revisions I run). `prototype`, `tdd`,
   `write-a-prd`, and `prd-to-plan` are adapted from his collection, modified to fit
   Foreman's tracer-bullet convention. `grilling-frontend-prototyping` takes its interview
   discipline and its prototype rules from his `grilling` and `prototype`. His license is

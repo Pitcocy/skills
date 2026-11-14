@@ -36,6 +36,13 @@ Look for **prefactoring**: "make the change easy, then make the easy change." Pr
 
 </vertical-slice-rules>
 
+Write each acceptance criterion so a builder can't misread it:
+
+- A matching, dedup or "same as" criterion names the key it matches on, with one case that must match and one that must not.
+- A criterion states its edges where the data has them: pending versus stored, which screens or lists, search versus browsing, empty and over the limit.
+- Check each criterion against the limits that already exist (caps, read-only fields, what the API refuses) and against the ticket's other criteria. Rewrite one that can't be met as written before the ticket is written.
+- A criterion met by model-run evals names how many rounds are allowed and which scenarios to rerun after a fix.
+
 Give each ticket its **blocking edges**: the tickets that must finish before it can start. A ticket with no blockers can start immediately. Number tickets blockers-first, so a blocker always has the lower number.
 
 **Wide refactors are the exception.** One mechanical change (rename a column, retype a shared symbol) whose **blast radius** breaks call sites across the codebase can't land as a green vertical slice. Sequence it as **expand–contract**: expand (add the new form beside the old), then migrate call sites in batches sized by blast radius (one ticket per batch, each blocked by the expand), then contract (delete the old form, blocked by every batch).

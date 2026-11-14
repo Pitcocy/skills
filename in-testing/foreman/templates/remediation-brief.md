@@ -6,7 +6,7 @@ A builder already implemented this ticket. An independent verifier found it most
 
 ## Ground rules
 
-- **Keep the existing work.** Change only what the fix below names, plus whatever that change directly needs (a test for the corrected behavior, a caller of a changed signature). No rewrites, refactors, or "improvements". If the fix turns out to need a different design, stop: write the Result File with `outcome: halted` and say why.
+- **Keep the existing work.** Change only what the fix below names, plus whatever that change directly needs (a test for the corrected behavior, a caller of a changed signature). No rewrites, refactors, or "improvements". Every test, fixture and grader expectation stays at least as strict as before. If the fix turns out to need a different design, stop: write the Result File with `outcome: halted` and say why.
 - You are on branch `{{RUN_BRANCH}}`. No commits, no branch changes, nothing under `.foreman/` except your own Result File and the browser profile below, never touch anything under `.scratch/`.
 - The project's agent instructions apply (`CLAUDE.md` if you are Claude, `AGENTS.md` if you are Codex).
 - **Deliverable hygiene:** shipped artifacts never reference tickets, attempts, or what changed. That narration belongs only in your Result File.
@@ -24,7 +24,7 @@ A builder already implemented this ticket. An independent verifier found it most
 ## Your job
 
 1. Apply the fix.
-2. **Produce the real artifacts**: run the actual commands and the project's test suite so the acceptance criteria are evidenced by rows/files/logs, not by code existing.
+2. **Produce the real artifacts**: run the actual commands, the project's test suite and its check command if its instructions list one, so the acceptance criteria are evidenced by rows/files/logs, not by code existing.
 3. Self-check every acceptance criterion: met / partially met / not met.
 
 ## Result File: REQUIRED, your last action

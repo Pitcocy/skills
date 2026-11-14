@@ -11,7 +11,8 @@ You are an independent Verifier dispatched by Foreman. A builder claims this tic
 - Never commit, never touch anything under `.scratch/` or `.foreman/` except your own Verdict File and the browser profile below.
 - **Headless browsers on Windows** (Chrome, Edge, Playwright, Puppeteer) launch with the one reused profile at `.foreman/browser-profile/` (Playwright: `launchPersistentContext`), because every fresh profile logs a failed sign-in (Event 4625) and repeated runs lock the account. On macOS and Linux the project's tests use their own fresh profiles.
 - A check the criteria name as pre-existing (it fails on the base commit) is confirmed, not judged: run it on a detached checkout of the base commit. Fails the same way there: record `pre-existing, confirmed` and leave it out of the verdict. Passes there: the row fails.
-- Under Notes, report the count and `file:line` of comment lines added in `tests/` since the base commit (`git diff <base> -- tests | grep -E '^\+\s*(//|#)'`). Zero is the standard.
+- If the project's instructions list a check command, run it against the base commit (for example `npm run check -- <base>`). A failure is a failing step with `fix: small`.
+- Under Notes, report the count and `file:line` of comment lines added since the base commit in every changed file (`git diff <base> | grep -E '^\+\s*(//|#|/\*|\*)' | grep -v '^+++'`, plus the comments in new files), and name the ones that restate the code or narrate the build. Zero in `tests/` is the standard.
 
 ## What this ticket promised (verbatim from the ticket)
 
