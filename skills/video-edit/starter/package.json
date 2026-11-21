@@ -1,0 +1,30 @@
+{
+  "name": "video-project",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "intake": "node scripts/intake.mjs",
+    "words": "node scripts/words.mjs",
+    "levels": "node scripts/levels.mjs",
+    "stills": "node scripts/stills.mjs",
+    "render": "node scripts/render.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.504",
+    "@remotion/cli": "4.0.504",
+    "@remotion/google-fonts": "4.0.504",
+    "@remotion/install-whisper-cpp": "4.0.504",
+    "@remotion/renderer": "4.0.504",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.504"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3"
+  }
+}

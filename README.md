@@ -116,6 +116,36 @@ mock, and the output was a set of rules I could hand to a build ("gold pages mar
 chapter, cream pages carry content") instead of a screenshot I would have argued with
 later.
 
+### Video: recording in, finished video out
+
+| Skill | What it does |
+|---|---|
+| [`video-edit`](skills/video-edit) | Takes a recording of you talking to the camera while sharing your screen and makes the finished video: the cut, burned-in captions, graphics next to you while you explain, zooms and labels on the screen recording, an end card. It renders the file and checks it against the source before it says done. |
+| [`video-style`](skills/video-style) | Sets your own look for those videos. It renders three candidate looks on a frame of your own recording, you answer with a letter, the next round goes one level deeper. Run it once, rerun it when you want a change. |
+
+This is the setup behind my Wayfinder board video, with my own branding taken out.
+The video is code ([Remotion](https://www.remotion.dev)), so your agent edits it the
+same way it edits any other project. `video-edit` ships a starter project inside the
+skill folder and sets it up on first use. 
+
+See the example video here:https://www.youtube.com/watch?v=BtOceV5Xw90
+
+Paste this into Claude Code and it does the rest:
+
+```text
+Install the video-edit and video-style skills from https://github.com/Pitcocy/skills with:
+npx skills@latest add Pitcocy/skills -s video-edit -s video-style -g --agent claude-code -y
+Then set up the video project and tell me how to record my first video.
+```
+
+What you need:
+
+- Node 18 or newer, or Bun. git and a C compiler for the captions (on a Mac: the Xcode command line tools).
+- A recorder that saves camera and screen as two separate files of the same recording. With one combined file you only get the screen part, no graphics next to you.
+- About 1.6 GB of disk for whisper.cpp and its model. Captions run on your own machine.
+- Built and tested on a Mac. Windows and Linux are untested.
+- Remotion is free for individuals and small teams, some companies need a license. [Read their terms](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).
+
 ## Credits
 
 A lot of this is other people's work, combined or adapted.
