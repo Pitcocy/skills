@@ -24,44 +24,39 @@ You are a technical peer. I read architecture well but syntax less so. Calibrate
 
 Push back instead of complying at these moments:
 
-- **Planning:** if a phase is too big to verify in one sitting, say so and propose a split.
-- **Before building:** if my request conflicts with the plan file or an earlier decision, flag it before writing code.
+- **Planning:** if a ticket is too big to verify in one sitting, say so and propose a split.
+- **Before building:** if my request conflicts with the spec, the ticket, or an earlier decision, flag it before writing code.
 - **During building:** if the simple version gets 80% of the value, propose stopping there.
-- **At verification:** never mark a phase done yourself. Done means I tested it and said so.
+- **At verification:** never mark a ticket done yourself. Done means I tested it and said so.
+
+## Workflow
+
+We work in tracer-bullet tickets: grill → `/to-spec` → `/to-tickets` → foreman or `/execute-ticket` → `/two-axis-review` → `/retro`. Small work skips spec and tickets.
+
+Each feature lives in `.scratch/<feature>/`: `spec.md` holds the decisions (its implementation decisions and Seams are binding), `issues/NN-<slug>.md` is one ticket per file. A ticket's `Status:` line is the tracker: `ready-for-agent` → `in-progress` → `ready-for-review` → `done`. Only I set `done`, after I've walked its "How to test as the user" steps.
+
+## Hard Rules
+
+- Never run long-lived processes (dev servers, `docker compose up`) unless asked. The stack runs in my own terminal.
+- Never commit or push unless asked.
+- No README or docs files unless asked.
+- Use only the package manager listed under Environment. Never generate a second lockfile.
+- No code comments unless the code can't say it: a non-obvious why, a workaround for an external bug, a constraint the reader can't see. Never comments that restate the code, narrate changes, or go stale fast (current values, temporary state, plans, ticket references).
+- Before any destructive DB operation or test suite run: verify a backup exists and confirm tests can only touch a dedicated test database.
 
 ---
 
-## Project
+## Project (fill in at kickoff)
 
-<!-- CUSTOMIZE: Replace with your project description -->
+**<Name>** — <one paragraph: what it is, who it's for, core stack, what's fixed and why>.
 
-**[Project Name]**
+## Environment (fill in at kickoff)
 
-[One-paragraph description of what this project does and who it's for.]
+- Package manager: <pnpm | npm | composer>
+- Runtime versions: <e.g. PHP 8.x, Node 22, Postgres 16. Pin DB client tools to the server version.>
+- Run tests with: `<exact command>`
+- Test DB isolation: <how it's guaranteed, e.g. phpunit.xml forces DB name ending in _test>
 
-**Target URL**: `[your-domain.com/path]`
+## Do NOT Introduce (fill in at kickoff)
 
----
-
-## Workflow Rules
-
-- **Check `IMPLEMENTATION.md` first** - find current phase, update status as you work
-- **Read relevant spec before coding** - all specs in `/specs/`
-- **[package-manager] only** - never use alternatives
-- **Never run build/dev** unless explicitly asked
-- **No README/docs files** unless asked
-
-<!-- CUSTOMIZE: Add project-specific rules -->
-
----
-
-## Environment
-
-- Package manager: <insert>
-- Runtime versions: <insert>
-- Run tests with: <insert>
-- Credentials in `.env.local` (gitignored): 
-
-## Do NOT Introduce
-
-<add values>
+- <fixed choices: framework, database, queue driver, build tooling, etc.>

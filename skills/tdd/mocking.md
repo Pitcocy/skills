@@ -2,10 +2,10 @@
 
 Mock at **system boundaries** only:
 
-- External APIs (payment, email, etc.) — use `Http::fake()`, `Mail::fake()`, `Notification::fake()`
+- External APIs (payment, email, etc.)
 - Databases (sometimes - prefer test DB)
-- Time/randomness — use `travel()` / `Carbon::setTestNow()`
-- File system (sometimes) — use `Storage::fake()`
+- Time/randomness
+- File system (sometimes)
 
 Don't mock:
 
@@ -21,52 +21,39 @@ At system boundaries, design interfaces that are easy to mock:
 
 Pass external dependencies in rather than creating them internally:
 
-```php
+```typescript
 // Easy to mock
-class PaymentProcessor
-{
-    public function __construct(private PaymentClient $client) {}
-
-    public function process(Order $order)
-    {
-        return $this->client->charge($order->total);
-    }
+function processPayment(order, paymentClient) {
+  return paymentClient.charge(order.total);
 }
 
 // Hard to mock
-class PaymentProcessor
-{
-    public function process(Order $order)
-    {
-        $client = new StripeClient(config('services.stripe.key'));
-        return $client->charge($order->total);
-    }
+function processPayment(order) {
+  const client = new StripeClient(process.env.STRIPE_KEY);
+  return client.charge(order.total);
 }
 ```
 
 **2. Prefer SDK-style interfaces over generic fetchers**
 
-Create specific methods for each external operation instead of one generic entry point with conditional logic:
+Create specific functions for each external operation instead of one generic function with conditional logic:
 
-```php
-// GOOD: Each method independently mockable
-interface OrderApi
-{
-    public function getUser(string $id): User;
-    public function getOrders(string $userId): array;
-    public function createOrder(array $data): Order;
-}
+```typescript
+// GOOD: Each function is independently mockable
+const api = {
+  getUser: (id) => fetch(`/users/${id}`),
+  getOrders: (userId) => fetch(`/users/${userId}/orders`),
+  createOrder: (data) => fetch('/orders', { method: 'POST', body: data }),
+};
 
 // BAD: Mocking requires conditional logic inside the mock
-interface OrderApi
-{
-    public function request(string $endpoint, array $options = []): array;
-}
+const api = {
+  fetch: (endpoint, options) => fetch(endpoint, options),
+};
 ```
 
 The SDK approach means:
-
 - Each mock returns one specific shape
 - No conditional logic in test setup
 - Easier to see which endpoints a test exercises
-- Type safety per method
+- Type safety per endpoint

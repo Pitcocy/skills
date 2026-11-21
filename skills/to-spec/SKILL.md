@@ -24,7 +24,7 @@ Flow: `grilling / wayfinder → to-spec → to-tickets → foreman or execute-ti
 
 Sketch the **seams**: the public boundaries where this feature's behavior will be tested, without reaching inside. Prefer existing seams to new ones. Pick the highest seam that works. The ideal number is one.
 
-Give each seam one line on what it catches and one on what it misses. Show them to the user and wait for agreement. This is the only stop: the `tdd` skill tests only at these seams, and `two-axis-review` flags tests anywhere else.
+Give each seam one line on what it catches and one on what it misses. Show them to the user and wait for agreement. When the decisions promise that existing behaviour stays the same, ask in the same stop which callers or inputs that promise covers (the interface, an API or CLI, other code, malformed input) and record the answer under Implementation decisions. This is the only stop: the `tdd` skill tests only at these seams, and `two-axis-review` flags tests anywhere else.
 
 ### 3. Write the spec
 
@@ -60,6 +60,7 @@ Decisions that hold for every ticket. Builders treat these as fixed; a builder w
 - Schema shape, routes, API contracts
 - Architectural decisions, third-party boundaries
 - Technical clarifications from the user
+- Where behaviour stays the same: which callers or inputs that promise covers, and what may change for the rest
 
 ## Seams
 

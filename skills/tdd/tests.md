@@ -4,15 +4,13 @@
 
 **Integration-style**: Test through real interfaces, not mocks of internal parts.
 
-```php
+```typescript
 // GOOD: Tests observable behavior
-it('lets a user check out a valid cart', function () {
-    $cart = new Cart();
-    $cart->add($product);
-
-    $result = (new Checkout)->process($cart, $paymentMethod);
-
-    expect($result->status)->toBe('confirmed');
+test("user can checkout with valid cart", async () => {
+  const cart = createCart();
+  cart.add(product);
+  const result = await checkout(cart, paymentMethod);
+  expect(result.status).toBe("confirmed");
 });
 ```
 
@@ -28,13 +26,12 @@ Characteristics:
 
 **Implementation-detail tests**: Coupled to internal structure.
 
-```php
+```typescript
 // BAD: Tests implementation details
-it('calls paymentService->process', function () {
-    $mock = Mockery::mock(PaymentService::class);
-    $mock->shouldReceive('process')->with($cart->total)->once();
-
-    (new Checkout($mock))->process($cart, $payment);
+test("checkout calls paymentService.process", async () => {
+  const mockPayment = jest.mock(paymentService);
+  await checkout(cart, payment);
+  expect(mockPayment.process).toHaveBeenCalledWith(cart.total);
 });
 ```
 
@@ -47,23 +44,34 @@ Red flags:
 - Test name describes HOW not WHAT
 - Verifying through external means instead of interface
 
-```php
+```typescript
 // BAD: Bypasses interface to verify
-it('saves users to the database', function () {
-    (new UserService)->create(['name' => 'Alice']);
-
-    $row = DB::table('users')->where('name', 'Alice')->first();
-
-    expect($row)->not->toBeNull();
+test("createUser saves to database", async () => {
+  await createUser({ name: "Alice" });
+  const row = await db.query("SELECT * FROM users WHERE name = ?", ["Alice"]);
+  expect(row).toBeDefined();
 });
 
 // GOOD: Verifies through interface
-it('makes a created user retrievable', function () {
-    $users = new UserService;
-    $user = $users->create(['name' => 'Alice']);
+test("createUser makes user retrievable", async () => {
+  const user = await createUser({ name: "Alice" });
+  const retrieved = await getUser(user.id);
+  expect(retrieved.name).toBe("Alice");
+});
+```
 
-    $retrieved = $users->find($user->id);
+**Tautological tests**: Expected value restates the implementation, so the test passes by construction.
 
-    expect($retrieved->name)->toBe('Alice');
+```typescript
+// BAD: Expected value is recomputed the way the code computes it
+test("calculateTotal sums line items", () => {
+  const items = [{ price: 10 }, { price: 5 }];
+  const expected = items.reduce((sum, i) => sum + i.price, 0);
+  expect(calculateTotal(items)).toBe(expected);
+});
+
+// GOOD: Expected value is an independent, known literal
+test("calculateTotal sums line items", () => {
+  expect(calculateTotal([{ price: 10 }, { price: 5 }])).toBe(15);
 });
 ```

@@ -11,6 +11,12 @@ fi
 engine="$1"; target="$2"; brief="$3"; log="$4"
 model="$5"
 
+# A Worker is its own session: the Orchestrator's Claude Code session variables stay behind.
+launch=(env -u CLAUDECODE -u CLAUDE_CODE_CHILD_SESSION -u CLAUDE_CODE_SESSION_ID
+  -u CLAUDE_CODE_ENTRYPOINT -u CLAUDE_CODE_MESSAGING_SOCKET -u CLAUDE_CODE_MESSAGING_TOKEN
+  -u CLAUDE_PID -u CLAUDE_CODE_SESSION_ATTENDED -u CLAUDE_CODE_EXECPATH)
+if command -v caffeinate >/dev/null; then launch+=(caffeinate -is); fi
+
 # Models are confirmed per role at kickoff and passed from the run manifest.
 # Explicit effort (including empty) wins; preserve engine overrides for callers
 # that omit it. Foreman passes the saved effort explicitly for repeatable runs.
@@ -19,14 +25,14 @@ case "$engine" in
     effort="${6-${FOREMAN_CLAUDE_EFFORT:-}}"
     model_args=(--model "$model")
     [[ -z "$effort" ]] || model_args+=(--effort "$effort")
-    (cd "$target" && claude -p --dangerously-skip-permissions \
+    (cd "$target" && "${launch[@]}" claude -p --dangerously-skip-permissions \
       "${model_args[@]}" < "$brief") >"$log" 2>&1
     ;;
   codex)
     effort="${6-${FOREMAN_CODEX_EFFORT:-}}"
     model_args=(-m "$model")
     [[ -z "$effort" ]] || model_args+=(-c "model_reasoning_effort=\"$effort\"")
-    codex exec --dangerously-bypass-approvals-and-sandbox -C "$target" \
+    "${launch[@]}" codex exec --dangerously-bypass-approvals-and-sandbox -C "$target" \
       "${model_args[@]}" \
       - < "$brief" >"$log" 2>&1
     ;;

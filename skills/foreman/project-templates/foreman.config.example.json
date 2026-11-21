@@ -2,7 +2,7 @@
   "//": "Copy to foreman.config.json (gitignored) and fill in your own values. All fields optional — if none are set, Foreman prints escalations in chat only.",
 
   "escalation": {
-    "//": "How Foreman reaches you on a Halt, a gate: human phase, exhausted retries, or completion. Foreman ALWAYS also prints the escalation in chat, so this is an enhancement, not a requirement.",
+    "//": "How Foreman reaches you on a Halt, a Gate: human ticket, exhausted retries, or completion. Foreman ALWAYS also prints the escalation in chat, so this is an enhancement, not a requirement.",
 
     "channel": "chat",
     "//channel": "One of: chat | discord. 'chat' = print in the Orchestrator session only. 'discord' = also ping the channel below (requires the Discord integration wired into your Claude Code).",
